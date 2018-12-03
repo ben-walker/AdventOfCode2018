@@ -1,4 +1,4 @@
-PUZZLE_INPUT = 'puzzle_1_input.txt'
+PUZZLE_INPUT = 'day_1_input.txt'
 
 def getPuzzleInput(puzzleFile):
   with open(puzzleFile) as fileInput:
