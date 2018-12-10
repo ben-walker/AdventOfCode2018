@@ -1,30 +1,26 @@
+import time
+from collections import Counter
+
 PUZZLE_INPUT = 'day_2_input.txt'
 
 def getPuzzleInput(puzzleFile):
   with open(puzzleFile) as fileInput:
     return [line.rstrip('\n') for line in fileInput]
 
-def checkIdForDouble(boxID):
-  for char in boxID:
-    if boxID.count(char) == 2:
-      return True
-  return False
-
-def checkIdForTriple(boxID):
-  for char in boxID:
-    if boxID.count(char) == 3:
-      return True
-  return False
-
 def computeChecksum(boxIDs):
-  numDoubles = 0
-  numTriples = 0
-  for ID in boxIDs:
-    if checkIdForDouble(ID):
-      numDoubles += 1
-    if checkIdForTriple(ID):
-      numTriples += 1
-  return numDoubles * numTriples
+  twosCount = 0
+  threesCount = 0
+  for id in boxIDs:
+    commonLetters = Counter(id)
+    commonCounts = commonLetters.values()
+    if 2 in commonCounts: twosCount += 1
+    if 3 in commonCounts: threesCount += 1
+  return twosCount * threesCount
 
+t = time.process_time()
 boxIDs = getPuzzleInput(PUZZLE_INPUT)
-print(f'checksum for box IDs: {computeChecksum(boxIDs)}')
+checksum = computeChecksum(boxIDs)
+elapsed = round(time.process_time() - t, 4)
+
+print(f'checksum for box IDs: {checksum}')
+print(f'in {elapsed} seconds')
