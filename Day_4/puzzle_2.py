@@ -24,22 +24,20 @@ def process_timesheet(timesheet):
       update_guard_asleep_minutes(guard_tracker, guard_id, range(fell_asleep, woke_up))
   return guard_tracker
 
-def most_slept_on(guard_tracker):
+def most_slept_on_product(guard_tracker):
   sleepiest_minute = 0
   for guard in guard_tracker:
     for minute in guard_tracker[guard]:
       if guard_tracker[guard][minute] > sleepiest_minute:
         sleepiest_minute = guard_tracker[guard][minute]
-        sleepiest_guard = guard
-        max_min = minute
-  return sleepiest_guard, max_min
+        sleep_prod = guard * minute
+  return sleep_prod
 
 t = time.process_time()
 timesheet = get_sorted_timesheet(PUZZLE_INPUT)
 guard_tracker = process_timesheet(timesheet)
-guard, minute = most_slept_on(guard_tracker)
-answer = guard * minute
+product = most_slept_on_product(guard_tracker)
 elapsed = round(time.process_time() - t, 4)
 
-print(f'id x minute: {answer}')
+print(f'id x minute: {product}')
 print(f'in {elapsed} seconds')
