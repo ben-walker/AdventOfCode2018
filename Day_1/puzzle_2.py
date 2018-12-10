@@ -1,35 +1,24 @@
+import itertools, time
+
 PUZZLE_INPUT = 'day_1_input.txt'
 
 def getPuzzleInput(puzzleFile):
   with open(puzzleFile) as fileInput:
-    return [line.rstrip('\n') for line in fileInput]
+    return [int(line.rstrip('\n')) for line in fileInput]
 
-def representInputAsNumeric(input):
-  return [int(value) for value in input]
+def findFirstDuplicate(changes):
+  freq = 0
+  found = set()
+  for val in itertools.cycle(changes):
+    freq += val
+    if freq in found:
+      return freq
+    found.add(freq)
 
-def findFrequencyChanges(input, startingFrequency):
-  changes = []
-  for change in input:
-    startingFrequency += change
-    changes.append(startingFrequency)
-  return changes
-
-def updateSet(frequencySet, changes):
-  for change in changes:
-    if change in frequencySet:
-      return change
-    frequencySet.add(change)
-
-foundFrequencies = set()
-newFrequencies = []
-firstDuplicate = None
-
+t = time.process_time()
 puzzleInput = getPuzzleInput(PUZZLE_INPUT)
-numericInput = representInputAsNumeric(puzzleInput)
-
-while firstDuplicate == None:
-  lastSeenFrequency = newFrequencies[-1] if newFrequencies else 0
-  newFrequencies = findFrequencyChanges(numericInput, lastSeenFrequency)
-  firstDuplicate = updateSet(foundFrequencies, newFrequencies)
+firstDuplicate = findFirstDuplicate(puzzleInput)
+elapsed = round(time.process_time() - t, 4)
 
 print(f'first duplicate frequency: {firstDuplicate}')
+print(f'in {elapsed} seconds')
