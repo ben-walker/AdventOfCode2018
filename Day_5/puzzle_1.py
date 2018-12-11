@@ -8,9 +8,12 @@ def get_polymer(puzzle_file):
 
 def polarity_reversed(uOne, uTwo):
   if uOne is None or uTwo is None: return False
-  if uOne.lower() != uTwo.lower(): return False
-  return ((uOne.isupper() and uTwo.islower()) or
-    (uOne.islower() and uTwo.isupper()))
+  return (
+    uOne.lower() == uTwo.lower() and (
+      (uOne.isupper() and uTwo.islower()) or
+      (uOne.islower() and uTwo.isupper())
+    )
+  )
 
 def remove_reactive_units(polymer):
   i = 0
@@ -19,7 +22,7 @@ def remove_reactive_units(polymer):
     next_unit = polymer[i + 1] if i < len(polymer) - 1 else None
     if polarity_reversed(unit, next_unit):
       polymer = polymer[: i] + polymer[i + 2 :]
-      i = i - 1 if i > 0 else 0
+      i = max(i - 1, 0)
       continue
     i += 1
   return polymer
